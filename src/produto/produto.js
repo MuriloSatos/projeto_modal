@@ -1,72 +1,84 @@
 
 
 const paragrafo = document.getElementById('teste');
-const tabelaCliente = document.getElementById('clienteTableDados');
-const modalNomeCliente = document.getElementById('cliente-nome');
-const modalSenhaCliente = document.getElementById('cliente-senha');
-const modalCpfCliente = document.getElementById('cliente-cpf');
-const modalIdCliente = document.getElementById('cliente-id')
-const botaoExcluir = document.getElementById('btn-excluir');
-const modalClienteEmail = document.getElementById('cliente-email')
-botaoExcluir.addEventListener('click',excluirCliente)
+const tabelaProduto = document.getElementById('produtoTableDados');
+const modalCodProduto = document.getElementById('codigo-produto');
+const modalNomeProduto = document.getElementById('nome-produto');
+const modalTipoProduto = document.getElementById('tipo-produto');
+const modalPrecoProduto = document.getElementById('preco-produto')
+const modalTamProduto = document.getElementById('tamanho-produto')
+const modalMarcaProduto = document.getElementById('marca-produto')
+const modalId = document.getElementById('id-produto')
 
+
+const botaoExcluir = document.getElementById('btn-excluir');
+botaoExcluir.addEventListener('click',excluirCliente)
 const botaolimpar = document.getElementById('btn-limpar');
 botaolimpar.addEventListener('click',limpar)
-const botaoAtualizar = document.getElementById('btn-salvar');
-botaoAtualizar.addEventListener('click',salvarCliente)
 
 
 
-function mostrarDetalhes(nome,senha,cpf,email,id){
-    modalNomeCliente.value = nome;
-    modalSenhaCliente.value = senha;
-    modalCpfCliente.value = cpf;
-    modalClienteEmail.value = email;
-    modalIdCliente.value = id;
+
+function mostrarDetalhes(nomeproduto,tipoproduto,preco,tamanhoproduto,marcaproduto,codigoproduto,id){
+modalNomeProduto.value = nomeproduto;
+modalTipoProduto.value = tipoproduto;
+modalPrecoProduto.value = preco;
+modalTamProduto.value = tamanhoproduto;
+modalMarcaProduto.value = marcaproduto;
+modalCodProduto.value = codigoproduto;
+modalId.value = id;
 }
 
 
-async function excluirCliente(){
-    const id = modalIdCliente.value;
+async function excluirProduto(){
+    const id = modalId.value;
     const retorno = await window.clienteAPI.excluirCliente(id);
-    mostrarDetalhes("","","","","");
-    carregarCliente();//após deleção atualiza a lista de alunos
+    mostrarDetalhes("","","","","","","");
+    carregarProduto();//após deleção atualiza a lista de produto
     
 }
 
 
-async function atualizarCliente(){
+async function atualizarProduto(){
     const id = modalIdCliente.value;
-    const nome = modalNomeCliente.value;
-    const senha = modalSenhaCliente.value;
-    const email = modalClienteEmail.value;
+    const nomepro = modalNomeProduto.value;
+    const tipo = modalTipoProduto.value;
+    const preco = modalPrecoProduto.value;
+    const tamanho = modalTamProduto.value;
+    const marca = modalMarcaProduto.value;
+    const cod = modalCodProduto.value;
 
     
-    const retorno = await window.clienteAPI.atualizarCliente(id,nome,senha,email);
+    const retorno = await window.produtoAPI.atualizarProduto(id,nomepro,tipo,preco,tamanho,marca,cod);
     console.log(retorno);
 
-    carregarCliente();//após deleção atualiza a lista de alunos
+    carregarProduto();//após deleção atualiza a lista de alunos
 }
 
 
-async function adicionarCliente(){
-    const nome = modalNomeCliente.value;
-    const senha = modalSenhaCliente.value;
-    const email = modalClienteEmail.value;
-    const cpf = modalCpfCliente.value;
+async function adicionarProduto(){
+    const nomepro = modalNomeProduto.value;
+    const tipo = modalTipoProduto.value;
+    const preco = modalPrecoProduto.value;
+    const tamanho = modalTamProduto.value;
+    const marca = modalMarcaProduto.value;
+    const cod = modalCodProduto.value;
 
-    const retorno = await window.clienteAPI.adicionarCliente(nome,senha,email,cpf);
+
+    const retorno = await window.produtoAPI.adicionarProduto(nomepro,tipo,preco,tamanho,marca,cod);
     console.log(retorno);
 
-    carregarCliente();//após deleção atualiza a lista de alunos
+    carregarProduto();//após deleção atualiza a lista de alunos
  }
   
 function limpar(){
-    modalNomeCliente.value= "";
-    modalSenhaCliente.value= "";
-    modalCpfCliente.value= "";
-    modalClienteEmail.value= "";
     modalIdCliente.value = "";
+    modalNomeProduto.value = "";
+    modalTipoProduto.value = "";
+    modalPrecoProduto.value = "";
+    modalTamProduto.value = "";
+    modalMarcaProduto.value = "";
+    modalCodProduto.value = "";
 
 }
 
@@ -90,7 +102,7 @@ async function carregarCliente(){
 }
 
 
-function criarLinhaCliente(cliente){
+function criarLinhaProduto(produto){
       const linha = document.createElement("tr");
 
     //nome

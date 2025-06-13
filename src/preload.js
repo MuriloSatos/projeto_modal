@@ -9,12 +9,12 @@ function excluirCliente(id){
     return ipcRenderer.invoke('deletar-cliente',id)
 }
 
-function atualizarCliente(cpf,senha,email){
-    return ipcRenderer.invoke('atualizar-cliente',cpf,senha,email)
+function atualizarCliente(id,nome,senha,email){
+    return ipcRenderer.invoke('atualizar-cliente',id,nome,senha,email)
 }
 
-function adicionarCliente(nome,senha,email){
-    return ipcRenderer.invoke('adicionar-cliente',nome,senha,email)
+function adicionarCliente(nome,senha,email,cpf){
+    return ipcRenderer.invoke('adicionar-cliente',nome,senha,email,cpf)
 }
 
 
