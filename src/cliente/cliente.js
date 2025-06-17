@@ -28,7 +28,7 @@ function mostrarDetalhes(nome,senha,cpf,email,id){
 
 async function excluirCliente(){
     const id = modalIdCliente.value;
-    const retorno = await window.clienteAPI.excluirCliente(id);
+    const retorno = await window.todosAPI.excluirCliente(id);
     mostrarDetalhes("","","","","");
     carregarCliente();//após deleção atualiza a lista de alunos
     
@@ -42,7 +42,7 @@ async function atualizarCliente(){
     const email = modalClienteEmail.value;
 
     
-    const retorno = await window.clienteAPI.atualizarCliente(id,nome,senha,email);
+    const retorno = await window.todosAPI.atualizarCliente(id,nome,senha,email);
     console.log(retorno);
 
     carregarCliente();//após deleção atualiza a lista de alunos
@@ -55,7 +55,7 @@ async function adicionarCliente(){
     const email = modalClienteEmail.value;
     const cpf = modalCpfCliente.value;
 
-    const retorno = await window.clienteAPI.adicionarCliente(nome,senha,email,cpf);
+    const retorno = await window.todosAPI.adicionarCliente(nome,senha,email,cpf);
     console.log(retorno);
 
     carregarCliente();//após deleção atualiza a lista de alunos
@@ -74,7 +74,7 @@ function limpar(){
 async function carregarCliente(){
 
     
-    const listaCliente = await window.clienteAPI.buscarCliente();
+    const listaCliente = await window.todosAPI.buscarCliente();
     tabelaCliente.innerHTML = "";
 
      console.log(listaCliente)

@@ -15,7 +15,6 @@ async function deletarCliente(event,id){
 }
 
 async function atualizarCliente(event,id,nome,senha,email) {
-    console.log("vou atualizar db")
     const resultado = await db.query('update sistema.cliente set nome = $2, senha = $3, email = $4 where id = $1',[id,nome,senha,email])
      //console.log(event)
     return resultado.rows;

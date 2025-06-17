@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="cliente.css">
+    <link rel="stylesheet" href="produto.css">
     <title>Lista de Produtos</title>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -13,17 +13,23 @@
     </header>
     <p id="teste"></p>
     <button id="btn-limpar"><i data-lucide="circle-plus"></i></button>
+    <div style="display: flex; justify-content: flex-start; margin: 30px 10px 20px 40px;">
+        <input type="text" id="busca-dev" placeholder="Pesquisar dev..." style="padding: 12px 20px; border-radius: 8px; width: 400px; border: 1px solid #ccc; font-size: 1rem;">
+    </div>
+    <button id ="btn-buscar"><i data-lucide="search"></i></button>
     
 
     <table id="ProdutoTable">
         <thead>
             <tr>
-                <th>codigo do Produto</th>
+    
                 <th>Nome do Produto</th>
                 <th>tipo do Produto</th>
                 <th>Preço</th>  
                 <th>tamanho do Produto</th>
-                <th>marca do Produto</th>     
+                <th>marca do Produto</th>
+                <th>codigo do Produto</th>
+                <th>id</th>    
                         
             </tr>
         </thead>
@@ -59,6 +65,6 @@
         <button id="btn-excluir">Excluir</button>
     </div>
 
-    <script src="cliente.js"></script>
+    <script src="produto.js"></script>
 </body>
 </html>

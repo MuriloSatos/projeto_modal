@@ -18,23 +18,47 @@ function adicionarCliente(nome,senha,email,cpf){
 }
 
 
+function buscarProduto(){
+    return ipcRenderer.invoke('buscar-produto')
+}
+function excluirProduto(id){
+    return ipcRenderer.invoke('deletar-produto',id)
+} 
+function atualizarProduto(id,nomeproduto,tipoproduto,preco,tamanhoproduto,marcaproduto,codigoproduto){
+    return ipcRenderer.invoke('atualizar-produto',id,nomeproduto,tipoproduto,preco,tamanhoproduto,marcaproduto,codigoproduto)
+}
+function adicionarProduto(nomeproduto,tipoproduto,preco,tamanhoproduto,marcaproduto,codigoproduto){
+    return ipcRenderer.invoke('adicionar-produto',nomeproduto,tipoproduto,preco,tamanhoproduto,marcaproduto,codigoproduto)
+}
+function buscarProdutoNome(nomeproduto){
+    return ipcRenderer.invoke('buscar-produto-nome',nomeproduto)
+}
 
-contextBridge.exposeInMainWorld('clienteAPI',
+contextBridge.exposeInMainWorld('todosAPI',
     {
         buscarCliente,
         excluirCliente,
         atualizarCliente,
-        adicionarCliente
+        adicionarCliente,
+
+        buscarProduto,
+        excluirProduto,
+        atualizarProduto,
+        adicionarProduto,
+        buscarProdutoNome
     }
 )
 
 function abrirCliente(){
     ipcRenderer.send('abrir-cliente')
 }
-
+function abrirProduto(){
+    ipcRenderer.send('abrir-produto')
+}
 
 contextBridge.exposeInMainWorld('janelaAPI',
    { 
-    abrirCliente
+    abrirCliente,
+    abrirProduto
    }
 )

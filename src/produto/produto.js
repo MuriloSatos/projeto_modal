@@ -1,7 +1,7 @@
 
 
 const paragrafo = document.getElementById('teste');
-const tabelaProduto = document.getElementById('produtoTableDados');
+const tabelaProduto = document.getElementById('ProdutoTableDados');
 const modalCodProduto = document.getElementById('codigo-produto');
 const modalNomeProduto = document.getElementById('nome-produto');
 const modalTipoProduto = document.getElementById('tipo-produto');
@@ -10,12 +10,45 @@ const modalTamProduto = document.getElementById('tamanho-produto')
 const modalMarcaProduto = document.getElementById('marca-produto')
 const modalId = document.getElementById('id-produto')
 
+const campoBusca = document.getElementById('busca-dev');
+//campoBusca.addEventListener('input', filtrarDevs)
+
 
 const botaoExcluir = document.getElementById('btn-excluir');
-botaoExcluir.addEventListener('click',excluirCliente)
+botaoExcluir.addEventListener('click',excluirProduto)
 const botaolimpar = document.getElementById('btn-limpar');
 botaolimpar.addEventListener('click',limpar)
+const botaoSalvar = document.getElementById('btn-salvar');
+botaoSalvar.addEventListener('click',salvarProduto)
 
+const botaoBuscar = document.getElementById('btn-buscar');
+botaoBuscar.addEventListener('click', carregarDevs)
+
+
+function filtrarDevs() {
+    const termo = campoBusca.value.toLowerCase();
+    const filtrados = listaDevsProduto.filter(d => d.nomeproduto.toLowerCase().includes(termo));
+    renderizarDevs(filtrados);
+}
+
+
+let listaDevsProduto = []
+
+async function carregarDevs() {
+    const lista = await window.todosAPI.buscarProdutoNome(campoBusca.value);
+    listaDevsProduto = lista;
+    renderizarDevs(lista)
+
+}''
+
+function renderizarDevs(lista) {
+    tabelaProduto.innerHTML = ""
+    lista.forEach(criarLinhaProduto)
+    if (!lista.length > 0) {
+        tabelaProduto.textContent = 'sem dados'
+    }
+    lucide.createIcons();
+}
 
 
 
@@ -32,7 +65,7 @@ modalId.value = id;
 
 async function excluirProduto(){
     const id = modalId.value;
-    const retorno = await window.clienteAPI.excluirCliente(id);
+    const retorno = await window.todosAPI.excluirProduto(id);
     mostrarDetalhes("","","","","","","");
     carregarProduto();//após deleção atualiza a lista de produto
     
@@ -40,7 +73,7 @@ async function excluirProduto(){
 
 
 async function atualizarProduto(){
-    const id = modalIdCliente.value;
+    const id = modalId.value;
     const nomepro = modalNomeProduto.value;
     const tipo = modalTipoProduto.value;
     const preco = modalPrecoProduto.value;
@@ -49,7 +82,7 @@ async function atualizarProduto(){
     const cod = modalCodProduto.value;
 
     
-    const retorno = await window.produtoAPI.atualizarProduto(id,nomepro,tipo,preco,tamanho,marca,cod);
+    const retorno = await window.todosAPI.atualizarProduto(id,nomepro,tipo,preco,tamanho,marca,cod);
     console.log(retorno);
 
     carregarProduto();//após deleção atualiza a lista de alunos
@@ -65,14 +98,14 @@ async function adicionarProduto(){
     const cod = modalCodProduto.value;
 
 
-    const retorno = await window.produtoAPI.adicionarProduto(nomepro,tipo,preco,tamanho,marca,cod);
+    const retorno = await window.todosAPI.adicionarProduto(nomepro,tipo,preco,tamanho,marca,cod);
     console.log(retorno);
 
     carregarProduto();//após deleção atualiza a lista de alunos
  }
   
 function limpar(){
-    modalIdCliente.value = "";
+    modalId.value = "";
     modalNomeProduto.value = "";
     modalTipoProduto.value = "";
     modalPrecoProduto.value = "";
@@ -83,18 +116,18 @@ function limpar(){
 }
 
 
-async function carregarCliente(){
+async function carregarProduto(){
 
     
-    const listaCliente = await window.clienteAPI.buscarCliente();
-    tabelaCliente.innerHTML = "";
+    const listaProduto = await window.todosAPI.buscarProduto();
+    tabelaProduto.innerHTML = "";
 
-     console.log(listaCliente)
-    listaCliente.forEach(criarLinhaCliente)
+     console.log(listaProduto)
+    listaProduto.forEach(criarLinhaProduto)
 
-    if (! listaCliente.length > 0 ){
+    if (! listaProduto.length > 0 ){
 
-        tabelaCliente.textContent ="sem dados"
+        tabelaProduto.textContent ="sem dados"
     }
     
     lucide.createIcons(); // renderiza os ícones do Lucide
@@ -107,33 +140,40 @@ function criarLinhaProduto(produto){
 
     //nome
     const celulanome = document.createElement("td");
-    celulanome.textContent = cliente.nome;
+    celulanome.textContent = produto.nomeproduto;
     linha.appendChild(celulanome);
 
     //matricula
-    const celulaSenha = document.createElement("td");
-    celulaSenha.textContent = cliente.senha;   
-    linha.appendChild(celulaSenha);
+    const celulaTipo = document.createElement("td");
+    celulaTipo.textContent = produto.tipoproduto;   
+    linha.appendChild(celulaTipo);
 
-    const celulaCpf = document.createElement("td");
-    celulaCpf.textContent = cliente.cpf;   
-    linha.appendChild(celulaCpf);
+    const celulaPreco = document.createElement("td");
+    celulaPreco.textContent = produto.preco;   
+    linha.appendChild(celulaPreco);
 
-    const celulaEmail = document.createElement("td");
-    celulaEmail.textContent = cliente.email;   
-    linha.appendChild(celulaEmail);
+    const celulaTamanho = document.createElement("td");
+    celulaTamanho.textContent = produto.tamanhoproduto;   
+    linha.appendChild(celulaTamanho);
 
-      const celulaId = document.createElement("td");
-    celulaId.textContent = cliente.id;   
+    const celulaMarca = document.createElement("td");
+    celulaMarca.textContent = produto.marcaproduto;   
+    linha.appendChild(celulaMarca);
+
+    const celulaCodigo = document.createElement("td");
+    celulaCodigo.textContent = produto.codigoproduto;   
+    linha.appendChild(celulaCodigo);
+
+    const celulaId = document.createElement("td");
+    celulaId.textContent = produto.id;   
     linha.appendChild(celulaId);
-
 
 
     //botao de modificar
     const celulaBotao = document.createElement("td");
     const botao = document.createElement("button");
     botao.addEventListener("click", 
-                                    function () { mostrarDetalhes(cliente.nome,cliente.senha,cliente.cpf,cliente.email,cliente.id)}
+                                    function () { mostrarDetalhes(produto.nomeproduto,produto.tipoproduto,produto.preco,produto.tamanhoproduto,produto.marcaproduto,produto.codigoproduto,produto.id) }
                                 );
     botao.textContent = 'teste';    
     
@@ -148,18 +188,18 @@ function criarLinhaProduto(produto){
 
 
     //final adiciono a linha criada com matricula,nome e botao à tabela
-    tabelaCliente.appendChild(linha);
+    tabelaProduto.appendChild(linha);
 
 }
 
-function salvarCliente(){
-    const id = modalIdCliente.value;
+function salvarProduto(){
+    const id = modalId.value;
     if(id){
-        atualizarCliente();
+        atualizarProduto();
     } else {
-        adicionarCliente();
+        adicionarProduto();
     }
 
 }
 
-carregarCliente()
+carregarProduto()

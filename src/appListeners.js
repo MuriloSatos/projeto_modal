@@ -8,8 +8,18 @@ const {
     adicionarCliente
 } = require('./cliente/clienteDb')
 
+const { 
+    buscarProduto,
+    deletarProduto,
+    atualizarProduto,
+    adicionarProduto,
+    buscarProdutoNome
+} = require('./produto/produtoDb')
+
+
 const {
-    modalAbrirCliente
+    modalAbrirCliente,
+    modalAbrirProduto
 } = require('./janelaModal')
 
 function registrarCliente(){
@@ -19,17 +29,25 @@ function registrarCliente(){
     ipcMain.handle('adicionar-cliente', adicionarCliente);
 }
 
-
+function registrarProduto(){
+    ipcMain.handle('buscar-produto', buscarProduto);
+    ipcMain.handle('deletar-produto', deletarProduto);
+    ipcMain.handle('atualizar-produto', atualizarProduto);
+    ipcMain.handle('adicionar-produto', adicionarProduto); 
+    ipcMain.handle('buscar-produto-nome', buscarProdutoNome);
+}
 
 
 
 function registrarJanelas(){
-    ipcMain.on('abrir-cliente',modalAbrirCliente)
+    ipcMain.on('abrir-cliente',modalAbrirCliente),
+    ipcMain.on('abrir-produto',modalAbrirProduto)
 }
 
 function registrarTodos(){
     registrarCliente();
     registrarJanelas();
+    registrarProduto();
 }
 module.exports = {
     registrarTodos
