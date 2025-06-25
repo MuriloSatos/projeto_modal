@@ -26,6 +26,7 @@ function mostrarDetalhes(nome,senha,cpf,email,id){
 }
 
 
+
 async function excluirCliente(){
     const id = modalIdCliente.value;
     const retorno = await window.todosAPI.excluirCliente(id);
@@ -149,5 +150,7 @@ function salvarCliente(){
     }
 
 }
+
+
 
 carregarCliente()

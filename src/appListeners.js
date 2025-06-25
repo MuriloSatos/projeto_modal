@@ -1,6 +1,16 @@
 const {ipcMain} = require('electron')
 
 
+const {    validarLogin
+} = require('./login/loginDb')
+
+
+function registrarLoginHandler(){
+    ipcMain.handle('validar-login', validarLogin);
+}
+
+
+
 const {
     buscarcliente,
     deletarCliente,
@@ -20,7 +30,12 @@ const {
 const {
     modalAbrirCliente,
     modalAbrirProduto
-} = require('./janelaModal')
+} = require('./janelaModal');
+
+
+const { createMainWindow } = require('./janelaPrincipal');
+const { createMainWindowCliente } = require('./janelaPrincipal');
+
 
 function registrarCliente(){
     ipcMain.handle('buscar-cliente', buscarcliente);
@@ -41,13 +56,17 @@ function registrarProduto(){
 
 function registrarJanelas(){
     ipcMain.on('abrir-cliente',modalAbrirCliente),
-    ipcMain.on('abrir-produto',modalAbrirProduto)
+    ipcMain.on('abrir-produto',modalAbrirProduto),
+    ipcMain.on('abrir-menu',createMainWindow)
+    ipcMain.on('abrir-menu-cliente',createMainWindowCliente)
+    
 }
 
 function registrarTodos(){
     registrarCliente();
     registrarJanelas();
     registrarProduto();
+    registrarLoginHandler();
 }
 module.exports = {
     registrarTodos

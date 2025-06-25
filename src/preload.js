@@ -45,9 +45,22 @@ contextBridge.exposeInMainWorld('todosAPI',
         excluirProduto,
         atualizarProduto,
         adicionarProduto,
-        buscarProdutoNome
+        buscarProdutoNome,
+
+        validarLogin
     }
 )
+function validarLogin(nome,senha){
+    return ipcRenderer.invoke('validar-login',nome,senha)
+}
+
+
+function abrirJanelaPrincipal(){
+    ipcRenderer.send('abrir-menu')
+}
+function abrirMenuCliente(){
+    ipcRenderer.send('abrir-menu-cliente')
+}
 
 function abrirCliente(){
     ipcRenderer.send('abrir-cliente')
@@ -59,6 +72,9 @@ function abrirProduto(){
 contextBridge.exposeInMainWorld('janelaAPI',
    { 
     abrirCliente,
-    abrirProduto
+    abrirProduto,
+    abrirJanelaPrincipal,
+    abrirMenuCliente
+
    }
 )
