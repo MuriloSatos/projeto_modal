@@ -15,7 +15,8 @@ const {
     buscarcliente,
     deletarCliente,
     atualizarCliente,
-    adicionarCliente
+    adicionarCliente,
+    buscarClienteDevs
 } = require('./cliente/clienteDb')
 
 const { 
@@ -42,6 +43,7 @@ function registrarCliente(){
     ipcMain.handle('deletar-cliente', deletarCliente);
     ipcMain.handle('atualizar-cliente', atualizarCliente);
     ipcMain.handle('adicionar-cliente', adicionarCliente);
+    ipcMain.handle('buscar-cliente-devs', buscarClienteDevs);
 }
 
 function registrarProduto(){

@@ -8,6 +8,14 @@ async function buscarcliente() {
 
 }
 
+async function buscarClienteDevs(event , email) {
+     const termoBusca = `%${email}%`;
+const resultado = await db.query('select * from sistema.cliente  Where email  like  $1 ' ,[termoBusca])
+
+
+    return resultado.rows;
+}
+
 async function deletarCliente(event,id){
     const resultado = await db.query('delete from sistema.cliente where id = $1', [id])
   //  console.log(event)
@@ -32,5 +40,6 @@ module.exports = {
     buscarcliente,
     deletarCliente,
     atualizarCliente,
-    adicionarCliente
+    adicionarCliente,
+    buscarClienteDevs
 }

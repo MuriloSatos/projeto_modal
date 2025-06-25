@@ -30,9 +30,16 @@ function atualizarProduto(id,nomeproduto,tipoproduto,preco,tamanhoproduto,marcap
 function adicionarProduto(nomeproduto,tipoproduto,preco,tamanhoproduto,marcaproduto,codigoproduto){
     return ipcRenderer.invoke('adicionar-produto',nomeproduto,tipoproduto,preco,tamanhoproduto,marcaproduto,codigoproduto)
 }
+
+
 function buscarProdutoNome(nomeproduto){
     return ipcRenderer.invoke('buscar-produto-nome',nomeproduto)
 }
+
+function buscarClienteDevs(email){
+    return ipcRenderer.invoke('buscar-cliente-devs',email)
+}
+
 
 contextBridge.exposeInMainWorld('todosAPI',
     {
@@ -45,7 +52,9 @@ contextBridge.exposeInMainWorld('todosAPI',
         excluirProduto,
         atualizarProduto,
         adicionarProduto,
+
         buscarProdutoNome,
+        buscarClienteDevs,
 
         validarLogin
     }

@@ -15,6 +15,36 @@ botaolimpar.addEventListener('click',limpar)
 const botaoAtualizar = document.getElementById('btn-salvar');
 botaoAtualizar.addEventListener('click',salvarCliente)
 
+const campoBusca = document.getElementById('busca-dev');
+
+const botaoBuscar = document.getElementById('btn-buscar');
+botaoBuscar.addEventListener('click', carregarDevs)
+
+function filtrarDevs() {
+    const termo = campoBusca.value.toLowerCase();
+    const filtrados = listaDevsCliente.filter(d => d.nome,email.toLowerCase().includes(termo));
+    renderizarDevs(filtrados);
+}
+
+
+let listaDevsCliente = []
+
+async function carregarDevs() {
+    const lista = await window.todosAPI.buscarClienteDevs(campoBusca.value);
+    listaDevsCliente = lista;
+    renderizarDevs(lista)
+
+}
+
+function renderizarDevs(lista) {
+    tabelaCliente.innerHTML = ""
+    lista.forEach(criarLinhaCliente)
+    if (!lista.length > 0) {
+        tabelaCliente.textContent = 'sem dados'
+    }
+    lucide.createIcons();
+}
+
 
 
 function mostrarDetalhes(nome,senha,cpf,email,id){
@@ -86,9 +116,18 @@ async function carregarCliente(){
         tabelaCliente.textContent ="sem dados"
     }
     
-    lucide.createIcons(); // renderiza os ícones do Lucide
+     // renderiza os ícones do Lucide
+     
+    let clienteNaoPode = localStorage.getItem("cliente");
+    if (clienteNaoPode !== 'adm') {
+        botaoExcluir.disabled = true;
+        botaoAtualizar.disabled = true;
+        
+    }
 
+    lucide.createIcons();
 }
+
 
 
 function criarLinhaCliente(cliente){

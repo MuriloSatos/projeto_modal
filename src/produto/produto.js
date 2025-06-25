@@ -39,7 +39,7 @@ async function carregarDevs() {
     listaDevsProduto = lista;
     renderizarDevs(lista)
 
-}''
+}
 
 function renderizarDevs(lista) {
     tabelaProduto.innerHTML = ""
