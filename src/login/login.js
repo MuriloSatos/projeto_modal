@@ -6,22 +6,27 @@ const msg = document.getElementById('msg');
 btn_acessar.addEventListener('click', validarLogin)
 
 
+
 async function validarLogin() {
-    const retorno = await window.todosAPI.validarLogin(login.value, senha.value);
-    console.log(retorno.perfil);
-if (!retorno) {
-    msg.textContent = "Senha ou nome de usuario incorreto";
-    msg.style.color = "red";
-  } else {
-    if (retorno.perfil === "adm") {
-      localStorage.setItem("perfil", retorno.perfil);
-      await window.janelaAPI.abrirJanelaPrincipal();
-    } else {
-      localStorage.setItem("perfil", retorno.perfil);
-      await window.janelaAPI.abrirJanelaPrincipal();
+    let retorno = await window.todosAPI.validarLogin(login.value.toLowerCase(), senha.value)
+
+    if (retorno && retorno.perfil == 'adm') {
+        localStorage.setItem('perfil', retorno.perfil)
+        msg.textContent = 'deu bom'
+        msg.style.color = 'green'
+        await window.janelaAPI.abrirJanelaPrincipal()
+        console.log(retorno.perfil)
     }
-  }
-} 
 
+    else if(retorno && retorno.perfil == 'cliente'){
+        localStorage.setItem('perfil', retorno.perfil)
+        msg.textContent = 'deu bom, user'
+        await window.janelaAPI.abrirJanelaPrincipal()
+        console.log(retorno.perfil)
+    }
 
-
+    else {
+        msg.textContent = 'Login inválido'
+        msg.style.color = 'red'
+    }
+}

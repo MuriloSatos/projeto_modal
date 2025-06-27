@@ -41,12 +41,20 @@ function modalAbrirProduto(event) {
         console.warn('Não foi possível abrir a modal: Janela principal não encontrada.');
     }
 }
+ function modalAbrirVenda(event) {
+    let mainWindow = getJanelaPrincipal();
+    if (mainWindow) {
+        criarJanelaModal(mainWindow, './src/vendas/venda.html');
+    } else {
+        console.warn('Não foi possível abrir a modal: Janela principal não encontrada.');
+    }
 
-
+ }
 
 module.exports = {
     criarJanelaModal,
     modalAbrirCliente,
-    modalAbrirProduto
+    modalAbrirProduto,
+    modalAbrirVenda
 
 };

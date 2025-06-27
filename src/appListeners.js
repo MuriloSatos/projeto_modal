@@ -30,7 +30,8 @@ const {
 
 const {
     modalAbrirCliente,
-    modalAbrirProduto
+    modalAbrirProduto,
+    modalAbrirVenda
 } = require('./janelaModal');
 
 
@@ -59,6 +60,7 @@ function registrarProduto(){
 function registrarJanelas(){
     ipcMain.on('abrir-cliente',modalAbrirCliente),
     ipcMain.on('abrir-produto',modalAbrirProduto),
+    ipcMain.on('abrir-venda',modalAbrirVenda),
     ipcMain.on('abrir-menu',createMainWindow)
     ipcMain.on('abrir-menu-cliente',createMainWindowCliente)
     

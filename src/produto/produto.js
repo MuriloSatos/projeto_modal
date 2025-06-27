@@ -129,6 +129,16 @@ async function carregarProduto(){
 
         tabelaProduto.textContent ="sem dados"
     }
+
+    
+    let clienteNaoPode = localStorage.getItem("perfil");
+    console.log(clienteNaoPode)
+    if (clienteNaoPode !== 'adm') {
+
+        botaoExcluir.disabled = true;
+        botaoSalvar.disabled = true;
+
+    }
     
     lucide.createIcons(); // renderiza os ícones do Lucide
 
