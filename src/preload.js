@@ -31,6 +31,22 @@ function adicionarProduto(nomeproduto,tipoproduto,preco,tamanhoproduto,marcaprod
     return ipcRenderer.invoke('adicionar-produto',nomeproduto,tipoproduto,preco,tamanhoproduto,marcaproduto,codigoproduto)
 }
 
+function buscarVenda(){
+    return ipcRenderer.invoke('buscar-venda')
+}
+function excluirVenda(codigovenda){
+    return ipcRenderer.invoke('deletar-venda',codigovenda)
+}
+function atualizarVenda(codigovenda,datavenda,codigoproduto,quantidadepeca,valortotal,statusvenda,idcliente){
+    return ipcRenderer.invoke('atualizar-venda',codigovenda,datavenda,codigoproduto,quantidadepeca,valortotal,statusvenda,idcliente)
+}
+function adicionarVenda(codigovenda,datavenda,codigoproduto,quantidadepeca,valortotal,statusvenda,idcliente){
+    return ipcRenderer.invoke('adicionar-venda',codigovenda,datavenda,codigoproduto,quantidadepeca,valortotal,statusvenda,idcliente)
+
+}
+
+
+
 
 function buscarProdutoNome(nomeproduto){
     return ipcRenderer.invoke('buscar-produto-nome',nomeproduto)
@@ -39,7 +55,9 @@ function buscarProdutoNome(nomeproduto){
 function buscarClienteDevs(email){
     return ipcRenderer.invoke('buscar-cliente-devs',email)
 }
-
+ function buscarVendaId(idcliente){
+    return ipcRenderer.invoke('buscar-venda-id',idcliente)
+}
 
 contextBridge.exposeInMainWorld('todosAPI',
     {
@@ -53,8 +71,14 @@ contextBridge.exposeInMainWorld('todosAPI',
         atualizarProduto,
         adicionarProduto,
 
+        buscarVenda,
+        excluirVenda,
+        atualizarVenda,
+        adicionarVenda,
+
         buscarProdutoNome,
         buscarClienteDevs,
+        buscarVendaId,
 
         validarLogin
     }
@@ -77,13 +101,17 @@ function abrirCliente(){
 function abrirProduto(){
     ipcRenderer.send('abrir-produto')
 }
+function abrirVenda(){
+    ipcRenderer.send('abrir-venda')
+}
 
 contextBridge.exposeInMainWorld('janelaAPI',
    { 
     abrirCliente,
     abrirProduto,
     abrirJanelaPrincipal,
-    abrirMenuCliente
+    abrirMenuCliente,
+    abrirVenda
 
    }
 )

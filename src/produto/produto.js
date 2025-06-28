@@ -1,6 +1,6 @@
 
 
-const paragrafo = document.getElementById('teste');
+const paragrafo = document.getElementById('Mostrar');
 const tabelaProduto = document.getElementById('ProdutoTableDados');
 const modalCodProduto = document.getElementById('codigo-produto');
 const modalNomeProduto = document.getElementById('nome-produto');
@@ -185,7 +185,7 @@ function criarLinhaProduto(produto){
     botao.addEventListener("click", 
                                     function () { mostrarDetalhes(produto.nomeproduto,produto.tipoproduto,produto.preco,produto.tamanhoproduto,produto.marcaproduto,produto.codigoproduto,produto.id) }
                                 );
-    botao.textContent = 'teste';    
+    botao.textContent = 'Mostrar';    
     
     const icone = document.createElement("i")
     icone.setAttribute("data-lucide", "edit");
