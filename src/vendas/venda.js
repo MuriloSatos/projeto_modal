@@ -1,12 +1,12 @@
 const paragrafo = document.getElementById('teste');
 const tabelaVenda = document.getElementById('VendaTableDados');
-const codigoproduto = document.getElementById('codigo-produto');
+const tagSelect = document.getElementById('campoDropProduto');
+const tagSelectCliente = document.getElementById('campoDropCliente');
 const modalDataVenda = document.getElementById('data-venda');
 const modalCodVenda = document.getElementById('codigo-venda');
 const modalQuantidadePeca = document.getElementById('quantidade-peca');
 const modalValor = document.getElementById('valor-total');
 const modalStatus = document.getElementById('status-venda');
-const modalId = document.getElementById('id-cliente');
 
 const campoBusca = document.getElementById('busca-dev');
 
@@ -52,19 +52,20 @@ function renderizarDevs(lista) {
 }
 
 
-function mostrarDetalhes(codProduto,dataVenda, codVenda, quantidadePeca, valorTotal, statusVenda, id) {
-    codigoproduto.value = codProduto
+function mostrarDetalhes(codProduto,dataVenda, codVenda, quantidadePeca, valorTotal, statusVenda, idcliente) {
+    console.log(codProduto)
+    tagSelect.value = codProduto
     modalDataVenda.value = dataVenda;
     modalCodVenda.value = codVenda;
     modalQuantidadePeca.value = quantidadePeca;
     modalValor.value = valorTotal;
     modalStatus.value = statusVenda;
-    modalId.value = id;
+    tagSelectCliente.value = id;
 }
 
 
  async function excluirVenda() {
-    const id = modalId.value;
+    const id = tagSelectCliente.value;
     const retorno = await window.todosAPI.excluirVenda(id);
     mostrarDetalhes("", "", "", "", "", "", "");
     carregarVenda();
@@ -74,10 +75,9 @@ function mostrarDetalhes(codProduto,dataVenda, codVenda, quantidadePeca, valorTo
 
 
 async function atualizaVenda() {
-    const id = modalId.value;
-    const codProduto = codigoproduto.value;
+    const id = tagSelectCliente.value;
+    const codProduto = tagSelect.value;
     const dataVenda = modalDataVenda.value;
-    const precoVenda = modalPrecoVenda.value;
     const codVenda = modalCodVenda.value;
     const quantidadePeca = modalQuantidadePeca.value;
     const valorTotal = modalValor.value;
@@ -85,32 +85,30 @@ async function atualizaVenda() {
 
 
     
-    const retorno = await window.todosAPI.atualizarVenda(id,codProduto, dataVenda, precoVenda, codVenda, quantidadePeca, valorTotal, statusVenda);
+    const retorno = await window.todosAPI.atualizarVenda(id,codProduto, dataVenda, codVenda, quantidadePeca, valorTotal, statusVenda);
     console.log(retorno);
     carregarVenda();
 }
 
 
 async function adicinarVenda(){
-    
+    const codigoproduto = tagSelect.value;
     const dataVenda = modalDataVenda.value;
-    const precoVenda = modalPrecoVenda.value;
     const codVenda = modalCodVenda.value;
     const quantidadePeca = modalQuantidadePeca.value;
     const valorTotal = modalValor.value;
     const statusVenda = modalStatus.value;
 
-    const retorno = await window.todosAPI.adicionarVenda(dataVenda, precoVenda, codVenda, quantidadePeca, valorTotal, statusVenda);
+    const retorno = await window.todosAPI.adicionarVenda(codigoproduto,dataVenda, codVenda, quantidadePeca, valorTotal, statusVenda);
     console.log(retorno);
     carregarVenda();
 
 }
 
 function limpar(){
-    modalId.value = "";
-    codigoproduto.value = "";
+    tagSelectCliente.value = "";
+    tagSelect.value = "";
     modalDataVenda.value = "";
-
     modalCodVenda.value = "";
     modalQuantidadePeca.value = "";
     modalValor.value = "";
@@ -132,9 +130,12 @@ async function carregarVenda() {
     if( clienteNaoPode !== "adm") {
         botaoExcluir.disabled = true;
         botaoSalvar.disabled = true;
+        botaoBuscar.disabled = true;
     }
 
     lucide.createIcons();
+    listaCodP();
+    listaCodC();
 }
 
 
@@ -195,7 +196,7 @@ function criarLinhaVenda(venda){
 }
 
 function salvarVenda() {
-    const id = modalId.value;
+    const id = tagSelectCliente.value;
     if (id) {
         atualizaVenda();
     } else {
@@ -203,5 +204,34 @@ function salvarVenda() {
     }
 
 }
+
+async function listaCodP() {
+    const listaproduto = await window.todosAPI.buscarProduto();
+    listaproduto.forEach(mostrarDetalhesProduto);
+}
+
+
+async function listaCodC() {
+    const listaCliente = await window.todosAPI.buscarCliente();
+    listaCliente.forEach(mostrarDetalhesCliente);
+}
+
+
+function mostrarDetalhesProduto(codProduto) {
+    const option = document.createElement("option");
+    option.value = codProduto.codigoproduto;
+    option.textContent = codProduto.nomeproduto;
+    tagSelect.appendChild(option);
+}
+
+
+function mostrarDetalhesCliente(idCliente) {
+    const option = document.createElement("option");
+    option.value = idCliente.idcliente;
+    option.textContent = idCliente.cliente;
+    tagSelectCliente.appendChild(option);
+}
+
+
 
 carregarVenda();
