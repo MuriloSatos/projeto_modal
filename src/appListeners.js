@@ -16,7 +16,8 @@ const {
     deletarCliente,
     atualizarCliente,
     adicionarCliente,
-    buscarClienteDevs
+    buscarClienteDevs,
+    somar2numeros
 } = require('./cliente/clienteDb')
 
 const {
@@ -32,7 +33,8 @@ const {
     buscarVendaNome,
     deletarVenda,
     atualizarVenda,
-    adicionarVenda
+    adicionarVenda,
+    buscarVendaId
 } = require('./vendas/vendaDb');
 
 const {
@@ -52,6 +54,7 @@ function registrarCliente() {
     ipcMain.handle('atualizar-cliente', atualizarCliente);
     ipcMain.handle('adicionar-cliente', adicionarCliente);
     ipcMain.handle('buscar-cliente-devs', buscarClienteDevs);
+    ipcMain.handle('somar-2-numeros', somar2numeros);
 }
 
 function registrarProduto() {
@@ -64,7 +67,7 @@ function registrarProduto() {
 
 function registrarVenda() {
     ipcMain.handle('buscar-venda', buscarVenda);
-    ipcMain.handle('buscar-venda-nome', buscarVendaNome);
+    ipcMain.handle('buscar-venda-id', buscarVendaId);
     ipcMain.handle('deletar-venda', deletarVenda);
     ipcMain.handle('atualizar-venda', atualizarVenda);
     ipcMain.handle('adicionar-venda', adicionarVenda);
@@ -86,6 +89,7 @@ function registrarTodos() {
     registrarProduto();
     registrarLoginHandler();
     registrarVenda();
+    
 }
 module.exports = {
     registrarTodos

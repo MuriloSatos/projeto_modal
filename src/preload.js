@@ -16,8 +16,9 @@ function atualizarCliente(id,nome,senha,email){
 function adicionarCliente(nome,senha,email,cpf){
     return ipcRenderer.invoke('adicionar-cliente',nome,senha,email,cpf)
 }
-
-
+function somar2numeros(num1,num2){
+    return ipcRenderer.invoke('somar-2-numeros',num1,num2)
+}
 function buscarProduto(){
     return ipcRenderer.invoke('buscar-produto')
 }
@@ -37,11 +38,11 @@ function buscarVenda(){
 function excluirVenda(codigovenda){
     return ipcRenderer.invoke('deletar-venda',codigovenda)
 }
-function atualizarVenda(codigovenda,datavenda,codigoproduto,quantidadepeca,valortotal,statusvenda,idcliente){
-    return ipcRenderer.invoke('atualizar-venda',codigovenda,datavenda,codigoproduto,quantidadepeca,valortotal,statusvenda,idcliente)
+function atualizarVenda(codigovendas,datavenda,codigoproduto,pecaquantidade,valortotal,statusvenda,idcliente){
+    return ipcRenderer.invoke('atualizar-venda',codigovendas,datavenda,codigoproduto,pecaquantidade,valortotal,statusvenda,idcliente)
 }
-function adicionarVenda(codigovenda,datavenda,codigoproduto,quantidadepeca,valortotal,statusvenda,idcliente){
-    return ipcRenderer.invoke('adicionar-venda',codigovenda,datavenda,codigoproduto,quantidadepeca,valortotal,statusvenda,idcliente)
+function adicionarVenda(codigovendas,datavenda,codigoproduto,pecaquantidade,valortotal,statusvenda,idcliente){
+    return ipcRenderer.invoke('adicionar-venda',codigovendas,datavenda,codigoproduto,pecaquantidade,valortotal,statusvenda,idcliente)
 
 }
 
@@ -65,6 +66,7 @@ contextBridge.exposeInMainWorld('todosAPI',
         excluirCliente,
         atualizarCliente,
         adicionarCliente,
+        somar2numeros,
 
         buscarProduto,
         excluirProduto,

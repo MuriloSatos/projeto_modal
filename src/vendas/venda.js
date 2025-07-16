@@ -17,61 +17,38 @@ const botaolimpar = document.getElementById('btn-limpar');
 botaolimpar.addEventListener('click',limpar)
 const botaoSalvar = document.getElementById('btn-salvar');
 botaoSalvar.addEventListener('click',salvarVenda)
-const botaoBuscar = document.getElementById('btn-buscar');
-botaoBuscar.addEventListener('click', carregarDevs)
 
 
 
-function filtrarDevs() {
-    const termo = campoBusca.value.toLowerCase();
-    const filtrados = listaDevsVenda.filter(d => d.idcliente.toLowerCase().includes(termo));
-    renderizarDevs(filtrados);
-} 
 
-
-let listaDevsVenda = []
-
-async function carregarDevs() {
+function mostrarDetalhes(codProduto, dataVenda, codVenda, quantidadePeca, valorTotal, statusvenda, idcliente) {
+    console.log('codProduto:', codProduto);
+    console.log('dataVenda:', dataVenda);
+    console.log('codVenda:', codVenda);
+    console.log('quantidadePeca:', quantidadePeca);
+    console.log('valorTotal:', valorTotal);
+    console.log('statusVenda:', statusvenda);
+    console.log('idcliente:', idcliente);
     
-    const lista = await window.todosAPI.buscarVendaId(campoBusca.value);
-    listaDevsVenda = lista;
-    renderizarDevs(lista)
-
-}
-
-
-
-
-function renderizarDevs(lista) {
-    tabelaVenda.innerHTML = ""
-    lista.forEach(criarLinhaVenda)
-    if (!lista.length > 0) {
-        tabelaVenda.textContent = 'sem dados'
-    }
-    lucide.createIcons();
-}
-
-
-function mostrarDetalhes(codProduto,dataVenda, codVenda, quantidadePeca, valorTotal, statusVenda, idcliente) {
-    console.log(codProduto)
-    tagSelect.value = codProduto
-    modalDataVenda.value = dataVenda;
+    tagSelect.value = codProduto;
+    modalDataVenda.value = new Date(dataVenda).toISOString().split('T')[0];
     modalCodVenda.value = codVenda;
     modalQuantidadePeca.value = quantidadePeca;
     modalValor.value = valorTotal;
-    modalStatus.value = statusVenda;
-    tagSelectCliente.value = id;
+    modalStatus.value = statusvenda;
+    tagSelectCliente.value = idcliente;
 }
+
 
 
  async function excluirVenda() {
-    const id = tagSelectCliente.value;
-    const retorno = await window.todosAPI.excluirVenda(id);
+    const codigovenda = modalCodVenda.value;
+    const retorno = await window.todosAPI.excluirVenda(codigovenda);
     mostrarDetalhes("", "", "", "", "", "", "");
     carregarVenda();
     paragrafo.textContent = retorno;
-
 }
+
 
 
 async function atualizaVenda() {
@@ -133,67 +110,69 @@ async function carregarVenda() {
         botaoBuscar.disabled = true;
     }
 
-    lucide.createIcons();
+   
     listaCodP();
     listaCodC();
+    lucide.createIcons();
 }
 
 
 
 function criarLinhaVenda(venda){
-      const linha = document.createElement("tr");
+    const linha = document.createElement("tr");
 
-    //nome
     const celulaCodPro = document.createElement("td");
     celulaCodPro.textContent = venda.codigoproduto;
     linha.appendChild(celulaCodPro);
 
-    //matricula
     const celuladata = document.createElement("td");
-    celuladata.textContent = venda.datavenda.toLocaleString('pt-BR', { dateStyle: 'short' }); 
+    celuladata.textContent = new Date(venda.datavenda).toLocaleDateString('pt-BR');
     linha.appendChild(celuladata);
 
     const celulaCodVen = document.createElement("td");
-    celulaCodVen.textContent = venda.codigovendas;   
+    celulaCodVen.textContent = venda.codigovendas;
     linha.appendChild(celulaCodVen);
 
     const celulaQuantidade = document.createElement("td");
-    celulaQuantidade.textContent = venda.pecaquantidade;   
+    celulaQuantidade.textContent = venda.pecaquantidade;
     linha.appendChild(celulaQuantidade);
 
     const celulaValorTotal = document.createElement("td");
-    celulaValorTotal.textContent = venda.valortotal;   
+    celulaValorTotal.textContent = venda.valortotal;
     linha.appendChild(celulaValorTotal);
 
     const celulaStatus = document.createElement("td");
-    celulaStatus.textContent = venda.statusvendas;   
+    celulaStatus.textContent = venda.statusvenda;
     linha.appendChild(celulaStatus);
 
-
     const celulaId = document.createElement("td");
-    celulaId.textContent = venda.idcliente;   
+    celulaId.textContent = venda.idcliente;
     linha.appendChild(celulaId);
-
 
     const celulaBotao = document.createElement("td");
     const botao = document.createElement("button");
-    botao.addEventListener("click", 
-        function () { mostrarDetalhes(venda.codigoproduto, venda.datavenda, venda.codigovenda, venda.quantidadepeca, venda.valortotal, venda.statusvenda, venda.idcliente) }
-    );
+    botao.addEventListener("click", function () {
+        mostrarDetalhes(
+            venda.codigoproduto,
+            venda.datavenda,
+            venda.codigovendas,
+            venda.pecaquantidade,
+            venda.valortotal,
+            venda.statusvenda,
+            venda.idcliente
+        );
+    });
 
     botao.textContent = 'Mostrar';
-
     const icone = document.createElement("i");
     icone.setAttribute("data-lucide", "edit");
     botao.appendChild(icone);
-
     celulaBotao.appendChild(botao);
-
     linha.appendChild(celulaBotao);
 
     tabelaVenda.appendChild(linha);
-
 }
+
 
 function salvarVenda() {
     const id = tagSelectCliente.value;
@@ -212,7 +191,9 @@ async function listaCodP() {
 
 
 async function listaCodC() {
+    console.log("vou chamar os clientes");
     const listaCliente = await window.todosAPI.buscarCliente();
+    console.log(listaCliente);
     listaCliente.forEach(mostrarDetalhesCliente);
 }
 
@@ -225,13 +206,12 @@ function mostrarDetalhesProduto(codProduto) {
 }
 
 
-function mostrarDetalhesCliente(idCliente) {
+function mostrarDetalhesCliente(Cliente) {
     const option = document.createElement("option");
-    option.value = idCliente.idcliente;
-    option.textContent = idCliente.cliente;
+    option.value = Cliente.id;
+    option.textContent = Cliente.nome;
     tagSelectCliente.appendChild(option);
 }
 
-
-
 carregarVenda();
+

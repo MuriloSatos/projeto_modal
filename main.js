@@ -8,15 +8,23 @@ app.whenReady().then(function () {
 
     createLoginWindow();
     registrarTodos();
+
  
+
+
+
+
+
     app.on('activate', function () {
         if (BrowserWindow.getAWindows().length === 0) {
             createLoginWindow();
+            
         }
     });
 
 }
 );
+
 
 
 app.on('window-all-closed', function () {

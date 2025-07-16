@@ -1,16 +1,6 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const nomeUsuario = localStorage.getItem('nome');
-    const tipoPerfil = localStorage.getItem('perfil');
 
-  
-    if (tipoPerfil === 'adm') {
-        document.getElementById('nomeUsuario').textContent += ' Administrador';
-    } else if (tipoPerfil === 'cliente') {
-        document.getElementById('nomeUsuario').textContent += ' Cliente';
-    } else {
-        document.getElementById('nomeUsuario').textContent += ' Perfil Desconhecido';
-    }
-   
+let tipoPerfil = localStorage.getItem('perfil');
 
-}
-);
+new Notification('Voce logou!',{
+    body: `bem vindo ${tipoPerfil}`
+})
